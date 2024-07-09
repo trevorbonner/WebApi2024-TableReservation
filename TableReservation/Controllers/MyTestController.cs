@@ -1,5 +1,7 @@
-﻿using Core.Interfaces;
+﻿using Core.Config;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace TableReservation.Controllers
 {
@@ -9,7 +11,7 @@ namespace TableReservation.Controllers
     {
         private ITestService service;
 
-        public MyTestController(ITestService service) 
+        public MyTestController(ITestService service, IOptions<SwaggerSettings> options) 
         {
             this.service = service;
         }
