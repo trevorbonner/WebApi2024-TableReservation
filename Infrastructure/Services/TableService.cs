@@ -32,7 +32,35 @@ namespace Infrastructure.Services
 
         public List<Table> GetAllTables()
         {
-            return new List<Table>();
+            var table = new Table()
+            {
+                Id = 1,
+                IsDeleted = false,
+                LastUpdatedDateTime = DateTime.Now,
+                Maxseating = 4,
+                TableNumber = 1
+            };
+
+            var table1 = new Table()
+            {
+                Id = 2,
+                IsDeleted = true,
+                LastUpdatedDateTime = DateTime.Now,
+                Maxseating = 5,
+                TableNumber = 2
+            };
+
+
+            var table2 = new Table()
+            {
+                Id = 3,
+                IsDeleted = false,
+                LastUpdatedDateTime = DateTime.Now,
+                Maxseating = 8,
+                TableNumber = 3
+            };
+
+            return new List<Table>() { table, table1, table2 };
         }
 
         public Table GetTableById(int id)
