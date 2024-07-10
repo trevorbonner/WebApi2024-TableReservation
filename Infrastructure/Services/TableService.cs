@@ -37,7 +37,7 @@ namespace Infrastructure.Services
                 Id = 1,
                 IsDeleted = false,
                 LastUpdatedDateTime = DateTime.Now,
-                Maxseating = 4,
+                MaxSeating = 4,
                 TableNumber = 1
             };
 
@@ -46,7 +46,7 @@ namespace Infrastructure.Services
                 Id = 2,
                 IsDeleted = true,
                 LastUpdatedDateTime = DateTime.Now,
-                Maxseating = 5,
+                MaxSeating = 5,
                 TableNumber = 2
             };
 
@@ -56,16 +56,35 @@ namespace Infrastructure.Services
                 Id = 3,
                 IsDeleted = false,
                 LastUpdatedDateTime = DateTime.Now,
-                Maxseating = 8,
-                TableNumber = 3
+                MaxSeating = 8,
+                TableNumber = 3,
+                IsReserved = true
             };
 
-            return new List<Table>() { table, table1, table2 };
+            var table3 = new Table()
+            {
+                Id = 4,
+                IsDeleted = false,
+                LastUpdatedDateTime = DateTime.Now,
+                MaxSeating = 8,
+                TableNumber = 4
+            };
+
+            return new List<Table>() { table, table1, table2, table3 };
         }
 
         public Table GetTableById(int id)
         {
-            return new Table();
+            var table = new Table()
+            {
+                Id = 1,
+                IsDeleted = false,
+                LastUpdatedDateTime = DateTime.Now,
+                MaxSeating = 4,
+                TableNumber = 1
+            };
+
+            return table;
         }
 
         public void UpdateTable(Table table)

@@ -8,7 +8,8 @@ namespace Core.Models
 {
     public class Table : BaseModel
     {
-        public int Maxseating { get; set; }
+        public int MaxSeating { get; set; }
         public int TableNumber { get; set; }
+        public bool IsReserved { get; set; }
     }
 }

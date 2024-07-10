@@ -34,6 +34,9 @@ namespace TableReservation
 
             app.UseAuthorization();
 
+            app.UseCors(x =>
+            x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()
+            );
 
             app.MapControllers();
 
