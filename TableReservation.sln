@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableReservation", "TableReservation\TableReservation.csproj", "{5F66A58D-3FD1-4415-B5DF-15BCE59770BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableReservation", "TableReservation\TableReservation.csproj", "{5F66A58D-3FD1-4415-B5DF-15BCE59770BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{6E148B3B-9F82-438C-A85E-72E17FCFCD81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{6E148B3B-9F82-438C-A85E-72E17FCFCD81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{700711D4-4359-4138-B3BD-BE3D6EBCB7DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{700711D4-4359-4138-B3BD-BE3D6EBCB7DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{4D14E19D-2581-442B-BBCB-75A713E438A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{700711D4-4359-4138-B3BD-BE3D6EBCB7DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{700711D4-4359-4138-B3BD-BE3D6EBCB7DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{700711D4-4359-4138-B3BD-BE3D6EBCB7DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D14E19D-2581-442B-BBCB-75A713E438A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D14E19D-2581-442B-BBCB-75A713E438A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D14E19D-2581-442B-BBCB-75A713E438A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D14E19D-2581-442B-BBCB-75A713E438A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

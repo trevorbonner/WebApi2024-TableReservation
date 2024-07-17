@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class TestService : ITestService
+    public class TestService : ITestService, ITransient
     {
         public TestModel GetModelByName(string name)
         {

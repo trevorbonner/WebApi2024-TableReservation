@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +9,50 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repo
 {
-    public class TableRepo : ITableRepo
+    public class TableRepo : ITableRepo, IScoped
     {
+        private DataContext context;
+        public TableRepo(DataContext context)
+        {
+            this.context = context;
+        }
+
         public Table AddTable(Table table)
         {
-            throw new NotImplementedException();
+            context.Tables.Add(table);
+            return table;
         }
 
         public void DeleteTableById(int id)
         {
-            throw new NotImplementedException();
+            var foundTable = context.Tables.FirstOrDefault(table => table.Id == id);
+            if(foundTable != null)
+            {
+                foundTable.IsDeleted = true;
+                foundTable.LastUpdatedDateTime = DateTime.Now;
+            }
         }
 
         public List<Table> GetAllTables()
         {
-            throw new NotImplementedException();
+            return context.Tables.ToList();
         }
 
         public Table GetTableById(int id)
         {
-            throw new NotImplementedException();
+            return context.Tables.FirstOrDefault(table => table.Id == id);
         }
 
         public void UpdateTable(Table table)
         {
-            throw new NotImplementedException();
+            if (table.Id <= 0)
+                return;
+
+            var foundTable = context.Tables.FirstOrDefault(x => x.Id == table.Id);
+            if (foundTable != null)
+            {
+                foundTable = table;
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Core.Config;
+using Core.Entities;
 using Core.Interfaces;
+using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -10,10 +12,11 @@ namespace TableReservation.Controllers
     public class MyTestController : ControllerBase
     {
         private ITestService service;
-
-        public MyTestController(ITestService service, IOptions<SwaggerSettings> options) 
+        private DataContext context;
+        public MyTestController(ITestService service, IOptions<SwaggerSettings> options, DataContext context) 
         {
             this.service = service;
+            this.context = context;
         }
 
         [HttpGet("First")]
@@ -46,6 +49,25 @@ namespace TableReservation.Controllers
             var test = service.GetModelByName(name);
 
             return Ok(test.Name);
+        }
+
+        [HttpGet("TestData")]
+        public IActionResult TestData()
+        {
+            var users = context.Users.ToList();
+
+            var user = new User()
+            {
+                FirstName = "Test",
+                LastName = "Test",
+                Email = "Test",
+                PhoneNumber = "Test"
+            };
+
+            context.Users.Add(user);
+            context.SaveChanges();
+
+            return Ok(user.Id);
         }
     }
 }

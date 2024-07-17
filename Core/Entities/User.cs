@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class Table : BaseEntity
+    public class User : BaseEntity
     {
-        public Table()
-        {
+        public User() 
+        { 
             Reservations = new List<Reservation>();
         }
 
-        public int Maxseating { get; set; }
-        public int TableNumber { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public List<Reservation> Reservations { get; set; }
     }
 }

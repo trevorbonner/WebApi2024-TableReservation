@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class TableService : ITableService
+    public class TableService : ITableService, IScoped
     {
         private ITableRepo repo;
 
@@ -19,15 +19,21 @@ namespace Infrastructure.Services
 
         public Table AddTable(Table table)
         {
-            table.Id = 1;
-            table.LastUpdatedDateTime= DateTime.Now;
+            var newTable = new Core.Entities.Table()
+            {
+                Maxseating = table.MaxSeating,
+                TableNumber = table.TableNumber,
+                LastUpdatedDateTime = DateTime.Now
+            };
+
+            repo.AddTable(newTable);
 
             return table;
         }
 
         public void DeleteTableById(int id)
         {
-            //do stuff in the future
+            repo.DeleteTableById(id);
         }
 
         public List<Table> GetAllTables()
@@ -75,16 +81,20 @@ namespace Infrastructure.Services
 
         public Table GetTableById(int id)
         {
-            var table = new Table()
+            var foundTable = repo.GetTableById(id); 
+            if(foundTable != null)
             {
-                Id = 1,
-                IsDeleted = false,
-                LastUpdatedDateTime = DateTime.Now,
-                MaxSeating = 4,
-                TableNumber = 1
-            };
+                var table = new Table()
+                {
+                    TableNumber = foundTable.TableNumber,
+                    MaxSeating = foundTable.Maxseating,
+                    IsReserved = true
+                };
 
-            return table;
+                return table;
+            }
+
+            return null;
         }
 
         public void UpdateTable(Table table)
