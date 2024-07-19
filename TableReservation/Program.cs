@@ -2,6 +2,7 @@ using Core.Config;
 using Core.Interfaces;
 using Data;
 using Infrastructure;
+using Infrastructure.AutoMapProfile;
 using Infrastructure.Repo;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,11 @@ namespace TableReservation
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAutoMapper(config =>
+            {
+                config.AddProfile(new ReservationProfile());
+            });
 
             //Setup db
             builder.Services.AddDbContext<DataContext>(options =>

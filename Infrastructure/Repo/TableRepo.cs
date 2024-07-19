@@ -20,6 +20,8 @@ namespace Infrastructure.Repo
         public Table AddTable(Table table)
         {
             context.Tables.Add(table);
+            table.LastUpdatedDateTime = DateTime.Now;
+            context.SaveChanges();
             return table;
         }
 

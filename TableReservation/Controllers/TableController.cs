@@ -18,7 +18,7 @@ namespace TableReservation.Controllers
         }
 
         [HttpPost("AddTable")]
-        public ActionResult<Table> AddTable(Table table)
+        public ActionResult<TableDto> AddTable(TableDto table)
         {
             var addedTable = service.AddTable(table);
 
@@ -42,13 +42,13 @@ namespace TableReservation.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Table>> GetAllTables()
+        public ActionResult<List<TableDto>> GetAllTables()
         {
             return Ok(service.GetAllTables());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Table> GetTableById(int id)
+        public ActionResult<TableDto> GetTableById(int id)
         {
             if (id == 0)
             {
@@ -65,7 +65,7 @@ namespace TableReservation.Controllers
         }
 
         [HttpPut("UpdateTable")]
-        public ActionResult UpdateTable(Table table)
+        public ActionResult UpdateTable(TableDto table)
         {
             service.UpdateTable(table);
             return NoContent();

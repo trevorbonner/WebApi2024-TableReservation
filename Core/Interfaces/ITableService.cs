@@ -9,10 +9,10 @@ namespace Core.Interfaces
 {
     public interface ITableService
     {
-        List<Table> GetAllTables();
-        Table GetTableById(int id);
-        void UpdateTable(Table table);
-        Table AddTable(Table table);
+        List<TableDto> GetAllTables();
+        TableDto GetTableById(int id);
+        void UpdateTable(TableDto table);
+        TableDto AddTable(TableDto table);
         void DeleteTableById(int id);
     }
 }

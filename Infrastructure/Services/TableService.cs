@@ -1,34 +1,28 @@
-﻿using Core.Interfaces;
+﻿using AutoMapper;
+using Core.Interfaces;
 using Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Core.Entities;
 
 namespace Infrastructure.Services
 {
     public class TableService : ITableService, IScoped
     {
         private ITableRepo repo;
+        private IMapper mapper;
 
-        public TableService(ITableRepo repo)
+        public TableService(ITableRepo repo, IMapper mapper)
         {
             this.repo = repo;
+            this.mapper = mapper;
         }
 
-        public Table AddTable(Table table)
+        public TableDto AddTable(TableDto table)
         {
-            var newTable = new Core.Entities.Table()
-            {
-                Maxseating = table.MaxSeating,
-                TableNumber = table.TableNumber,
-                LastUpdatedDateTime = DateTime.Now
-            };
+            var newTable = mapper.Map<Table>(table);
 
             repo.AddTable(newTable);
 
-            return table;
+            return mapper.Map<TableDto>(newTable);
         }
 
         public void DeleteTableById(int id)
@@ -36,55 +30,26 @@ namespace Infrastructure.Services
             repo.DeleteTableById(id);
         }
 
-        public List<Table> GetAllTables()
+        public List<TableDto> GetAllTables()
         {
-            var table = new Table()
+            var tables = repo.GetAllTables();
+
+            var foundTables = new List<TableDto>();
+
+            foreach(var table in tables)
             {
-                Id = 1,
-                IsDeleted = false,
-                LastUpdatedDateTime = DateTime.Now,
-                MaxSeating = 4,
-                TableNumber = 1
-            };
+                foundTables.Add(mapper.Map<TableDto>(table));
+            }
 
-            var table1 = new Table()
-            {
-                Id = 2,
-                IsDeleted = true,
-                LastUpdatedDateTime = DateTime.Now,
-                MaxSeating = 5,
-                TableNumber = 2
-            };
-
-
-            var table2 = new Table()
-            {
-                Id = 3,
-                IsDeleted = false,
-                LastUpdatedDateTime = DateTime.Now,
-                MaxSeating = 8,
-                TableNumber = 3,
-                IsReserved = true
-            };
-
-            var table3 = new Table()
-            {
-                Id = 4,
-                IsDeleted = false,
-                LastUpdatedDateTime = DateTime.Now,
-                MaxSeating = 8,
-                TableNumber = 4
-            };
-
-            return new List<Table>() { table, table1, table2, table3 };
+            return foundTables;
         }
 
-        public Table GetTableById(int id)
+        public TableDto GetTableById(int id)
         {
             var foundTable = repo.GetTableById(id); 
             if(foundTable != null)
             {
-                var table = new Table()
+                var table = new TableDto()
                 {
                     TableNumber = foundTable.TableNumber,
                     MaxSeating = foundTable.Maxseating,
@@ -97,7 +62,7 @@ namespace Infrastructure.Services
             return null;
         }
 
-        public void UpdateTable(Table table)
+        public void UpdateTable(TableDto table)
         {
             //TODO
         }

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Core.Models
 {
-    public abstract class BaseModel
+    public class TableDto
     {
         public int Id { get; set; }
-        public bool IsDeleted { get; set; }
-        public DateTime LastUpdatedDateTime { get; set; }
+        public int MaxSeating { get; set; }
+        public int TableNumber { get; set; }
+        public bool IsReserved { get; set; }
     }
 }

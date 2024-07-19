@@ -13,6 +13,6 @@ namespace Core.Entities
         public int TableId { get; set; }
         public Table Table { get; set; }
         public int RequestedSeatingCount { get; set; }
-        public DateTime ReservationDateTime { get; set; }
+        public DateTime DesiredDateTime { get; set; }
     }
 }
