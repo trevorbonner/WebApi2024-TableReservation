@@ -5,7 +5,12 @@ using Infrastructure;
 using Infrastructure.AutoMapProfile;
 using Infrastructure.Repo;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace TableReservation
 {
@@ -20,7 +25,34 @@ namespace TableReservation
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(x =>
+            {
+                x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Scheme = "Bearer",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                x.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference()
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
+            });
 
             builder.Services.AddAutoMapper(config =>
             {
@@ -40,6 +72,32 @@ namespace TableReservation
                 }
             });
 
+            var sharedKey = builder.Configuration["Security:SharedSecret"];
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy(JwtBearerDefaults.AuthenticationScheme,
+                    new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build());
+            });
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = builder.Configuration["Security:Issuer"],
+                    ValidAudience = builder.Configuration["Security:Audiance"],
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey= true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(sharedKey))
+                };
+            });
+
             InitializeDependencyInjection(builder.Services, builder.Configuration);
 
             var app = builder.Build();
@@ -55,6 +113,7 @@ namespace TableReservation
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseCors(x =>
             x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()
@@ -71,6 +130,8 @@ namespace TableReservation
         {
             services.Configure<SwaggerSettings>
                 (configuration.GetSection("SwaggerSettings"));
+
+            services.Configure<Security>(configuration.GetSection("Security"));
 
             //Transient items create a new instance everytime you ask for one
             //services.AddTransient(typeof(ITestService), typeof(TestService));

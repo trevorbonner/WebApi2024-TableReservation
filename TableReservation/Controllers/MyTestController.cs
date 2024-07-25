@@ -1,12 +1,16 @@
 ﻿using Core.Config;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
 using Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace TableReservation.Controllers
 {
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]/v1")]
     public class MyTestController : ControllerBase
@@ -31,6 +35,7 @@ namespace TableReservation.Controllers
             return Unauthorized();
         }
 
+        [AllowAnonymous]
         [HttpGet("Third")]
         public IActionResult ThirdTest(int id, string name) 
         {
@@ -61,13 +66,30 @@ namespace TableReservation.Controllers
                 FirstName = "Test",
                 LastName = "Test",
                 Email = "Test",
-                PhoneNumber = "Test"
+                PhoneNumber = "Test",
+                PasswordHashed = "SomeHash"
             };
 
             context.Users.Add(user);
             context.SaveChanges();
 
             return Ok(user.Id);
+        }
+
+        public IActionResult TestUnitTests(TestModel testModel)
+        {
+            if(testModel == null)
+            {
+                return BadRequest();
+            }
+
+            if(testModel.Name == "test")
+            {
+                return NoContent();
+            }
+
+            return Ok();
+
         }
     }
 }
